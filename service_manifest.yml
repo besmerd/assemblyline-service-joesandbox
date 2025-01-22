@@ -1,0 +1,39 @@
+name: JoeSandbox
+version: $SERVICE_TAG
+description: >
+
+accepts: .*
+rejects: empty|metadata/.*
+
+stage: SECONDARY
+category: Dynamic Analysis
+
+file_required: true
+timeout: 60
+disable_cache: false
+
+enabled: true
+is_external: true
+licence_count: 0
+
+docker_config:
+  image: ${REGISTRY}besmerd/assemblyline-service-joesandbox:$SERVICE_TAG
+  cpu_cores: 1.0
+  ram_mb_min: 128
+  ram_mb: 256
+
+config:
+  api_key: ''
+  api_url: 'https://jbxcloud.joesecurity.org/api/'
+  poll_interval: 2
+  timeout: 60
+
+submission_params:
+  - default: ''
+    name: api_key
+    type: str
+    value: ''
+  - default: 2
+    name: poll_interval
+    type: int
+    value: 2

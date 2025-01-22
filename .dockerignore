@@ -1,0 +1,7 @@
+Dockerfile
+.git
+
+env
+venv
+test
+tests
