@@ -3,6 +3,9 @@ FROM cccs/assemblyline-v4-service-base:latest
 
 ENV SERVICE_PATH joesandbox.JoeSandbox
 
+COPY requirements.txt requirements.txt
+RUN pip install --no-cache-dir --user --requirement requirements.txt && rm -rf ~/.cache/pip
+
 USER assemblyline
 
 WORKDIR /opt/al_service
