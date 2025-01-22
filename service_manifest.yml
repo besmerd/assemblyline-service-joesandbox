@@ -14,13 +14,10 @@ disable_cache: false
 
 enabled: true
 is_external: true
-licence_count: 0
 
 docker_config:
   image: ${REGISTRY}besmerd/assemblyline-service-joesandbox:$SERVICE_TAG
-  cpu_cores: 1.0
-  ram_mb_min: 128
-  ram_mb: 256
+  allow_internet_access: true
 
 config:
   api_key: ''
