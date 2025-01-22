@@ -39,7 +39,8 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          push: ${{ contains(github.ref, 'ref/tags/v') }}
+          push: true
+          #push: ${{ contains(github.ref, 'ref/tags/v') }}
           build-args: |
             version=${{ env.BUILD_TAG }}
             branch=${{ env.BUILD_TYPE }}
