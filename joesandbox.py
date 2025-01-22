@@ -2,7 +2,8 @@ import json
 import time
 
 from assemblyline_v4_service.common.base import ServiceBase
-from assemblyline_v4_service.common.result import Result, ResultSection, BODY_FORMAT
+from assemblyline_v4_service.common.request import ServiceRequest
+from assemblyline_v4_service.common.result import BODY_FORMAT, Result, ResultSection
 
 import jbxapi
 
@@ -17,19 +18,18 @@ class JoeSandbox(ServiceBase):
 
     def execute(self, request):
 
-        result = Result()
 
         joe = jbxapi.JoeSandbox(
-            apiurl=self.config.get("api_url"),
-            apikey=self.config.get("api_key"),
+            apiurl=self.config.get("api_url") or None,
+            apikey=request.get_param("api_key") or self.config.get("api_key"),
             accept_tac=True,
-            user_agent="AssemblyLine",
+            user_agent="AssemblyLine JoeSandbox Service",
         )
+
 
         with open(request.file_path, "rb") as fh:
             sample = (request.file_name, fh)
-            result = joe.submit_sample(sample)
-            submission_id = result["submission_id"]
+            submission_id = joe.submit_sample(sample).get('submission_id')
             self.log.info("Submitted sample with id: %s", submission_id)
 
         self.log.debug("Start to polling for submission id: %", submission_id)
@@ -43,6 +43,8 @@ class JoeSandbox(ServiceBase):
             time.sleep(self.config.get("poll_interval"))
 
         report_link = submission["most_relevant_analysis"]["webid"]
+
+        result = Result()
 
         result.add_section(
             ResultSection(

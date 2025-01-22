@@ -1,18 +1,18 @@
 name: JoeSandbox
 version: $SERVICE_TAG
 description: >
+  Submits files to JoeSandbox instance.
 
 accepts: .*
 rejects: empty|metadata/.*
 
-stage: SECONDARY
+stage: CORE
 category: Dynamic Analysis
 
 file_required: true
-timeout: 60
-disable_cache: false
+timeout: 800
 
-enabled: true
+enabled: false
 is_external: true
 
 docker_config:
@@ -21,16 +21,19 @@ docker_config:
 
 config:
   api_key: ''
-  api_url: 'https://jbxcloud.joesecurity.org/api/'
-  poll_interval: 2
-  timeout: 60
+  host: ''
+  poll_interval: 10
 
 submission_params:
   - default: ''
     name: api_key
     type: str
     value: ''
-  - default: 2
+  - default: 10
     name: poll_interval
     type: int
-    value: 2
+    value: 10
+  - default: 600
+    name: timeout
+    type: int
+    value: 600
